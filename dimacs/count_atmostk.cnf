@@ -1,0 +1,29 @@
+c N4, k2
+c count up to 2, not more (overflow)
+c B0 is B or A
+ -2 5 0
+ -1 5 0
+c B1 is B AND A
+ -2 -1 6 0
+c C0 is C OR B0
+ -3 7 0
+ -5 7 0
+c C1 is C AND B0 or B1
+ -3 -5 8 0
+ -6 8 0
+c protect overflow C and B1
+ -3 -6 0
+c no need to count D (n-1)
+c protect overflow D and C1
+-4 -8 0
+
+Generated:
+-2 5 0
+-1 5 0
+-2 -1 6 0
+-3 7 0
+-5 7 0
+-3 -5 8 0
+-6 8 0
+-3 -6 0
+-4 -8 0

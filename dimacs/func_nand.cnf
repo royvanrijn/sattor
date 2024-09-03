@@ -1,0 +1,8 @@
+c NAND gate on 3
+c SAT = 1 NAND 2
+1 2 3 0
+-2 -3 0
+-1 -3 0
+c FILL IN TO CHECK:
+-1 0
+2 0

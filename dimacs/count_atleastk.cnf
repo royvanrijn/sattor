@@ -1,0 +1,39 @@
+c N4, k2
+c count at least 2, not less (reverse fixing)
+c B0 is B or A
+ -2 5 0
+ -1 5 0
+c inverse B0
+ -5 2 1 0
+
+c B1 is B AND A
+ -2 -1 6 0
+c inverse B1
+ -6 1 0
+ -6 2 0
+c C0 is C OR B0
+ -3 7 0
+ -5 7 0
+c inverse C0
+-7 3 5 0
+
+c C1 is C AND B0 or B1
+ -3 -5 8 0
+ -6 8 0
+c inverse C1
+-8 3 6 0
+-8 5 6 0
+-8 3 5 6 0
+
+c No need to encode D0/D1
+c inverse D or C0
+4 7 0
+c inverse D AND C0 or C1
+8 4 0
+8 7 0
+4 7 8 0
+
+1 0
+2 0
+3 0
+4 0

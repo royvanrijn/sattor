@@ -1,0 +1,78 @@
+Examples (omitted cases where the largest aggressor is equal to A250000):
+n=1: white queens 0, black queens 0
+n=2: white queens 0, black queens 0
+n=3: white queens 1, black queens 2
+n=4: white queens 2, black queens 3
++-------+
+|. W . W|
+|. . . .|
+|B . B .|
+|. . B .|
++-------+
+n=5: white queens 4, black queens 4
+n=6: white queens 5, black queens 6
++-----------+
+|. W . . . .|
+|W . W . . .|
+|. . . . B B|
+|. . . B . B|
+|W W . . . .|
+|. . . B . B|
++-----------+
+n=7: white queens 7, black queens 7
+n=8: white queens 9, black queens 10
++---------------+
+|. . . B B B . .|
+|W W . . . . . .|
+|. . . B . . . B|
+|. . . . . . B B|
+|. . . . . B B B|
+|. W W . . . . .|
+|W W W . . . . .|
+|W W . . . . . .|
++---------------+
+n=9: white queens 12, black queens 12
+n=10: white queens 14, black queens 15
++-------------------+
+|. . B B . . . . B B|
+|. . B B . . . B B B|
+|. . B . . . . B B B|
+|. . . . . . . B B .|
+|. W . . . . . . . .|
+|W W . . . . . . . .|
+|W W . . . . . . . .|
+|W . . . . W W . . .|
+|. . . . W W W . . .|
+|. . . . W W W . . .|
++-------------------+
+n=11: white queens 17, black queens 19
++---------------------+
+|W . W . . . . . W . W|
+|. . . . B B B . . . .|
+|W . W . . . . . W . W|
+|. . . . B . B . . . .|
+|. B . . . B . B . B .|
+|. B . . B . B . . B .|
+|. B . . . B . B . B .|
+|. . . . B . B . . . .|
+|W . W . . . . . W . W|
+|. . . W . . . . . . .|
+|W . W . . . . . W . W|
++---------------------+
+n=12: white queens 21, black queens 21 (not proven optimal)
+n=13: white queens 24, black queens 25 (not proven optimal)
++-------------------------+
+|B . B . B . . . . . B . B|
+|. . . . . . W . W . . . .|
+|B . B . B . . . . . B . B|
+|. . . . . . W . W . . . .|
+|. W . W . W . W . W . W .|
+|. . . . . . W . W . . . .|
+|B . B . B . . . . . B . B|
+|. . . . . . W . W . . . .|
+|. W . W . W . W . W . W .|
+|. . . . . . W . W . . . .|
+|B . B . B . . . . . B . B|
+|. . . . . . W . W . . . .|
+|B . B . B . . . . . B . B|
++-------------------------+

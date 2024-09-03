@@ -1,0 +1,9 @@
+c XOR gate on 3
+c SAT = 1 XOR 2
+1 2 -3 0
+-1 -2 -3 0
+-1 2 3 0
+1 -2 3 0
+c FILL IN TO CHECK:
+1 0
+2 0
