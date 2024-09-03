@@ -7,7 +7,7 @@ import com.royvanrijn.sattor.Formula;
 import com.royvanrijn.sattor.VariableSequence;
 
 /**
- * Inspiration: http://www.cs.toronto.edu/~fbacchus/csc2512/at_most_k.pdf
+ * Inspiration: LTseq from `SAT Encodings of the At-Most-k Constraint`
  *
  * Slightly optimized, omitting some variables/rules, making it even faster.
  *
@@ -18,7 +18,7 @@ import com.royvanrijn.sattor.VariableSequence;
 public class Counting {
 
     /**
-     * Ensure there are exactly k true values in seq
+     * Ensure there are at least k true values in seq
      * @param formula
      * @param seq Sequence to test
      * @param k Amount we're looking for
@@ -38,7 +38,7 @@ public class Counting {
     }
 
     /**
-     * Ensure there are exactly k true values in seq
+     * Ensure there are at most k true values in seq
      * @param formula
      * @param seq Sequence to test
      * @param k Amount we're looking for
@@ -155,7 +155,8 @@ public class Counting {
      *
      * Combine atMost/atLeast into two groups, seq1 (largest) and seq2 (smallest)
      * Enforce that the total bits true is k.
-     * But also enforce that group seq2 can't have more than ceil(k/2)
+     *
+     * It also enforces that group seq2 can't have more than ceil(k/2); making seq1 the larger of the two.
      *
      * @param formula
      * @param seq1

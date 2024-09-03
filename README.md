@@ -45,7 +45,8 @@ I've written some blogposts (a while ago) on my website (https://royvanrijn.com)
 
 One of the problems I solved using my SAT encoder was "Peaceable queens": How many queens (black and white) can be on an NxN board without being able to see/attack the opponent.
 
-To do this I needed to implement constraints like "LTseq" (counting sequence) with `atMostK`, `atLeastK`, `exactlyK`, etc.
+To do this I needed to implement constraints like "LTseq" (counting sequence) from the paper `SAT Encodings of the At-Most-k Constraint`. I've created (fast) constraints like `atMostK`, `atLeastK`, `exactlyK`, etc.
+
 I've even added a `combinedK(seq1, seq2, k)` that counts up to `k` but breaks a symmetry such that there will always be more true variables in `seq1` over `seq2`
 
 The code for generating the encoded DIMACS SAT input for peaceable queens can be found in `com.royvanrijn.examples`.
