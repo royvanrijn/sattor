@@ -35,13 +35,15 @@ formula.writeToFile("add_numbers.cnf");
 
 This resulting file can be fed into any SAT solver (MiniSAT, Glucose, etc) to obtain a result.
 
-## Learn more...
+## WIP
 
-I've written some (early) blogposts on my website (https://royvanrijn.com) on how SAT solvers work.
+This is just a hobby project, I'm learning more about SAT and it's encoding as I go along. The idea is to solve more (toy) problems and simultaneously expending the library of common tricks/algorithms used in encoding problem.
 
-## Peaceable queens
+I've written some blogposts (a while ago) on my website (https://royvanrijn.com) on how SAT solvers work, including how to encode problems.
 
-One of the problems I solved using my SAT encoder was "Peaceable queens".
+## Example 1: Peaceable queens
+
+One of the problems I solved using my SAT encoder was "Peaceable queens": How many queens (black and white) can be on an NxN board without being able to see/attack the opponent.
 
 To do this I needed to implement constraints like "LTseq" (counting sequence) with `atMostK`, `atLeastK`, `exactlyK`, etc.
 I've even added a `combinedK(seq1, seq2, k)` that counts up to `k` but breaks a symmetry such that there will always be more true variables in `seq1` over `seq2`
