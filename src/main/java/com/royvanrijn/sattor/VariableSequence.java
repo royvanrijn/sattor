@@ -14,6 +14,10 @@ public class VariableSequence implements Iterable<Integer> {
 
     private final List<Integer> variables = new ArrayList<>();
 
+    public VariableSequence() {
+
+    }
+
     public VariableSequence(List<Integer> sequence) {
         append(sequence);
     }
@@ -44,6 +48,10 @@ public class VariableSequence implements Iterable<Integer> {
 
     public int get(int index) {
         return variables.get(index);
+    }
+
+    public void add(int variable) {
+        variables.add(variable);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class PeaceableQueenGenerator {
         fillGroups(N, boardPlayer1, boardPlayer2, player1Top, player1TopLeft, player1TopRight, player1Bottom, player2Left, player2Right);
 
         // No overlap between boolean pair, one or the other is true, not both:
-        Logic.noOverlap(formula, boardPlayer1, boardPlayer2);
+        Logic.zeroOrOne(formula, boardPlayer1, boardPlayer2);
 
         // Break symmetries:
         Counting.atLeastK(formula, VariableSequence.of(player1TopLeft), k/4); // top left has at least k/4
