@@ -1,6 +1,10 @@
 package com.royvanrijn.examples;
 
+import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 import com.royvanrijn.sattor.Formula;
 import com.royvanrijn.sattor.VariableSequence;
@@ -32,9 +36,18 @@ public class TestBinaryMultiplier {
 
         VariableSequence sum = Arithmetic.mul(formula, in1, in2);
 
+
+        System.out.println(binary.length());
+        System.out.println(sum.length());
+        int offset = (sum.length()-binary.length());
         // Fix the binary number on the output:
-        for(int i = sum.length()-binary.length(); i < binary.length(); i++) {
-            formula.add((binary.charAt(i)=='0'?"-":"") + sum.get(i) + " 0");
+        for(int i = 0; i < offset; i++) {
+            formula.add("-" + sum.get(i) + " 0");
+        }
+
+        for(int i = offset; i < sum.length(); i++) {
+
+            formula.add((binary.charAt(i-offset)=='0'?"-":"") + sum.get(i) + " 0");
         }
 
         // Both input are not even:
@@ -54,18 +67,29 @@ public class TestBinaryMultiplier {
 //                formula.print();
         formula.writeToFile("dimacs/example.cnf");
 
-//        try {
-//            String output = Files.readString(Path.of("output.cnf"));
-//            String result = sum.variables().stream().map(i->output.charAt(output.indexOf(i+" ")-1)=='-'?"0":"1").collect(Collectors.joining(""));
-//            System.out.println(result);
-//            BigInteger b = new BigInteger("101100100011010101100110101111010001111100100000011010101100110111001001011011010001110010101111100100000101111110001110111111011110101011100001010100001110011010111101110010011011101101001111011111110111110110011001001000100111010001010101011101110000001011011101110001110001111010010100001110111101111100010111100101100011111011", 2);
-//            System.out.println(b);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        System.out.println(target);
+        System.out.println(binary);
+
+        try {
+            String output = Files.readString(Path.of("dimacs/output.cnf"));
+
+            print(in1, output);
+            print(in2, output);
+            print(sum, output);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         System.out.println(l1+" "+l2);
+    }
+
+    private static void print(final VariableSequence in1, final String output) {
+        String result = in1.variables().stream().map(i-> output.charAt(output.indexOf(i+" ")-1)=='-'?"0":"1").collect(Collectors.joining(""));
+        System.out.println(result);
+        BigInteger b = new BigInteger(result, 2);
+        System.out.println(b);
     }
 }
 

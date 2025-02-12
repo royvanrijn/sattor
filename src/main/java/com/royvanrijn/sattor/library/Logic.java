@@ -1,5 +1,9 @@
 package com.royvanrijn.sattor.library;
 
+import static com.royvanrijn.sattor.library.Helper.padToLength;
+
+import java.util.stream.Collectors;
+
 import com.royvanrijn.sattor.Formula;
 import com.royvanrijn.sattor.VariableSequence;
 
@@ -44,5 +48,40 @@ public class Logic {
         for(int i = 0; i < seq1.length(); i++) {
             formula.add(-seq1.get(i) +" " + -seq2.get(i)+" 0");
         }
+    }
+
+
+
+    public static void equals(Formula formula, VariableSequence seq1, VariableSequence seq2) {
+
+        int n = Math.max(seq1.length(), seq2.length());
+
+        VariableSequence paddedA = padToLength(formula, seq1, n);
+        VariableSequence paddedB = padToLength(formula, seq2, n);
+
+        for(int i = 0; i < n; i++) {
+            Gates.eq(formula, paddedA.get(i), paddedB.get(i));
+        }
+    }
+
+    public static void notEquals(Formula formula, VariableSequence seq1, VariableSequence seq2) {
+
+        int n = Math.max(seq1.length(), seq2.length());
+
+        VariableSequence paddedA = padToLength(formula, seq1, n);
+        VariableSequence paddedB = padToLength(formula, seq2, n);
+
+        VariableSequence difference = formula.newVariables(n);
+
+        for(int i = 0; i < n; i++) {
+            Gates.xor(formula, paddedA.get(i), paddedB.get(i), difference.get(i));
+        }
+
+        notZero(formula, difference);
+    }
+
+    public static void notZero(Formula formula, VariableSequence seq) {
+        String clause = seq.variables().stream().map(Object::toString).collect(Collectors.joining(" ")) + " 0";
+        formula.add(clause);
     }
 }

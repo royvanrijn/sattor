@@ -1,6 +1,7 @@
 package com.royvanrijn.sattor.library;
 
 import static com.royvanrijn.sattor.library.Gates.xor;
+import static com.royvanrijn.sattor.library.Helper.padToLength;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +95,51 @@ public class Arithmetic {
         }
 
         return sum;
+    }
+
+    public static VariableSequence subtract(Formula formula, VariableSequence seq1, VariableSequence seq2) {
+        int n = Math.max(seq1.length(), seq2.length());
+
+        // Pad seq1 to n bits and then further pad it to n+1 bits (with extra false at front).
+        VariableSequence paddedA = padToLength(formula, seq1, n);
+        paddedA = padToLength(formula, paddedA, n+1); // Prepend an extra 0.
+
+        // Pad seq2 to n bits.
+        VariableSequence paddedB = padToLength(formula, seq2, n);
+
+        // Our unknown result (C) will be n bits.
+        VariableSequence result = formula.newVariables(n);
+
+        // Compute B + result; add() returns n+1 bits.
+        VariableSequence temp = add(formula, result, paddedB);
+
+        // Constrain that B + result equals paddedA.
+        for (int i = 0; i < paddedA.length(); i++) {
+            eq(formula, temp.get(i), paddedA.get(i));
+        }
+
+        return result;
+    }
+
+    public static void isSquare(Formula formula, VariableSequence sequence) {
+
+        // 'sequence' must be a perfect square:
+        int sqrtLen = (sequence.length() + 1) / 2;
+        VariableSequence sqrtCandidate = formula.newVariables(sqrtLen);
+        VariableSequence squareComputed = Arithmetic.mul(formula, sqrtCandidate, sqrtCandidate);
+
+        // Enforce that squareComputed equals sequence bitwise:
+        Logic.equals(formula, squareComputed, sequence);
+    }
+
+
+    /**
+     * Enforces logical equivalence between two variables.
+     */
+    private static void eq(Formula formula, int var1, int var2) {
+        // var1 == var2 can be enforced with two clauses:
+        formula.add("-" + var1 + " " + var2 + " 0");
+        formula.add(var1 + " -" + var2 + " 0");
     }
 
 

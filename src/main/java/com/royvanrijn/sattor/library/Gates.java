@@ -14,6 +14,7 @@ public class Gates {
         formula.add(in1 + " " + -in2 + " 0");
         formula.add(-in1 + " " + in2 + " 0");
     }
+
     public static void and(Formula formula, int in1, int in2, int out) {
         formula.add(in1 + " " + -out + " 0");
         formula.add(in2 + " " + -out + " 0");
