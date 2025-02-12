@@ -18,14 +18,14 @@ import com.royvanrijn.sattor.VariableSequence;
 import com.royvanrijn.sattor.library.Arithmetic;
 import com.royvanrijn.sattor.library.Logic;
 
-public class TestMagicSquare {
+public class MagicSquareOfSquares {
 
     private Formula formula = Formula.create();
 
     public static void main(String[] args) {
 
         for(int i = 10; i < 100; i++) {
-            new TestMagicSquare().run(i);
+            new MagicSquareOfSquares().run(i);
         }
     }
 
