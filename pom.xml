@@ -24,6 +24,21 @@
     </properties>
 
     <dependencies>
+
+        <!-- Dependencies for testing -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.11.4</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.sat4j</groupId>
+            <artifactId>org.sat4j.core</artifactId>
+            <version>2.3.1</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
     
 </project>

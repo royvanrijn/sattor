@@ -40,7 +40,7 @@ public class Logic {
      * @param seq1
      * @param seq2
      */
-    public static void zeroOrOne(final Formula formula, VariableSequence seq1, VariableSequence seq2) {
+    public static void forEachNotBothTrue(final Formula formula, VariableSequence seq1, VariableSequence seq2) {
         if(seq1.length() != seq2.length()) {
             throw new IllegalArgumentException("Not same size");
         }
@@ -77,11 +77,19 @@ public class Logic {
             Gates.xor(formula, paddedA.get(i), paddedB.get(i), difference.get(i));
         }
 
-        notZero(formula, difference);
+        notAllFalse(formula, difference);
     }
 
-    public static void notZero(Formula formula, VariableSequence seq) {
+    public static void notAllFalse(Formula formula, VariableSequence seq) {
         String clause = seq.variables().stream().map(Object::toString).collect(Collectors.joining(" ")) + " 0";
         formula.add(clause);
     }
+
+    public static void allTrue(Formula formula, VariableSequence seq) {
+        for(int v : seq.variables()) {
+            formula.add(v + " 0");
+        }
+    }
+
+
 }
