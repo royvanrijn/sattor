@@ -38,7 +38,7 @@ public class MagicSquareOfSquares {
 
         for (int i = 0; i < 9; i++) {
             // The cell must be nonzero.
-            Logic.notZero(formula, square.get(i));
+            Logic.notAllFalse(formula, square.get(i));
 
             // --- Witness function: enforce the cell is a perfect square ---
             Arithmetic.isSquare(formula, square.get(i));

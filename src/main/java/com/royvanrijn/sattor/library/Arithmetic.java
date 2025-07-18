@@ -176,4 +176,36 @@ public class Arithmetic {
 
         return new VariableSequence(outputVariables);
     }
+
+    public static void lessThan(boolean allowEqual, Formula formula, VariableSequence seq1, VariableSequence seq2) {
+        int n = Math.max(seq1.length(), seq2.length());
+        VariableSequence a = Helper.padToLength(formula, seq1, n);
+        VariableSequence b = Helper.padToLength(formula, seq2, n);
+
+        VariableSequence allEqualUpTo = formula.newVariables(n+1);
+        formula.add(allEqualUpTo.get(0) + " 0");
+
+        VariableSequence equalPairwise = formula.newVariables(n);
+
+        for(int i = 0; i < n; i++) {
+
+            // Compare the direct pairs:
+            formula.add(equalPairwise.get(i) + " " + a.get(i) + " " + b.get(i) + " 0");
+            formula.add(equalPairwise.get(i) + " -" + a.get(i) + " -" + b.get(i) + " 0");
+            formula.add("-" + equalPairwise.get(i) + " -" + a.get(i) + " " + b.get(i) + " 0");
+            formula.add("-" + equalPairwise.get(i) + " " + a.get(i) + " -" + b.get(i) + " 0");
+
+            // AND together the single previous and the pair:
+            Gates.and(formula, allEqualUpTo.get(i), equalPairwise.get(i), allEqualUpTo.get(i+1));
+
+            // Finally forbid that the previous as still all equal and the current is 1<0
+            formula.add("-" + allEqualUpTo.get(i) + " -" + a.get(i) + " " + b.get(i) + " 0");
+        }
+
+        if(!allowEqual) {
+            formula.add("-" + allEqualUpTo.get(n-1) + " 0");
+        }
+    }
+
+
 }

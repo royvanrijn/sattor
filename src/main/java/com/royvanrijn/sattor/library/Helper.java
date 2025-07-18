@@ -24,4 +24,5 @@ public class Helper {
         padded.addAll(seq.variables());
         return new VariableSequence(padded);
     }
+
 }

@@ -13,9 +13,16 @@ public class SynthesizeReverseBits {
         return Integer.reverse(x) >>> 24;
     }
 
+    /** Compute a transformation of an 8-bit value. */
+    private static int fun(int x) {
+        int transformed = (x + 1) & 0xFF;
+//        System.out.println(x + " " + transformed);
+        return transformed;
+    }
+  
     public static void main(String[] args) {
         BitwiseFunctionSynthesizer.synthesize(
-                SynthesizeReverseBits::reverse8,
+                SynthesizeReverseBits::fun,
                 8,
                 EnumSet.allOf(BitwiseFunctionSynthesizer.OpType.class));
 
