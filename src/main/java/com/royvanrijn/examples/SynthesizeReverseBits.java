@@ -19,15 +19,17 @@ public class SynthesizeReverseBits {
 //        System.out.println(x + " " + transformed);
         return transformed;
     }
-
+  
     public static void main(String[] args) {
-
-        // Create file:
         BitwiseFunctionSynthesizer.synthesize(
                 SynthesizeReverseBits::fun,
-                16,
+                8,
                 EnumSet.allOf(BitwiseFunctionSynthesizer.OpType.class));
 
-        // After running minisat: UNSATISFIABLE
+        // After running a SAT solver manually, the result can be parsed as follows:
+        // Program program = BitwiseFunctionSynthesizer.extractProgram(
+        //         Files.readAllLines(Path.of("output.cnf")).get(1),
+        //         8,
+        //         EnumSet.allOf(BitwiseFunctionSynthesizer.OpType.class));
     }
 }

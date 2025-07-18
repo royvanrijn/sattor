@@ -2,6 +2,7 @@ package com.royvanrijn.examples;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.royvanrijn.sattor.Formula;
 import com.royvanrijn.sattor.VariableSequence;
@@ -39,11 +40,12 @@ public class BitwiseFunctionSynthesizer {
      * @param f          Function to realize for all 8-bit inputs
      * @param numOps     Number of operations in the synthesized program
      * @param allowedOps Set of allowed op types
-     * @return optional program or empty if UNSAT after running a solver
+     *
+     * The DIMACS encoding is written to {@code dimacs/bitwise_synth.cnf}.
      */
-    public static Optional<Program> synthesize(Function<Integer, Integer> f,
-                                               int numOps,
-                                               Set<OpType> allowedOps) {
+    public static void synthesize(Function<Integer, Integer> f,
+                                  int numOps,
+                                  Set<OpType> allowedOps) {
         Formula formula = Formula.create();
 
         // Operations share the same type/src selectors for all inputs.
@@ -111,9 +113,8 @@ public class BitwiseFunctionSynthesizer {
         formula.writeToFile("dimacs/bitwise_synth.cnf");
 
         // At this point an external SAT solver should be run on the generated
-        // file to determine satisfiability. Parsing the result back into a
-        // Program object is left as an exercise for the caller.
-        return Optional.empty();
+        // file to determine satisfiability. Use {@link #extractProgram} to
+        // decode the solver output back into a {@link Program}.
     }
 
     /** Apply an operation on two inputs producing fresh output variables. */
@@ -163,5 +164,62 @@ public class BitwiseFunctionSynthesizer {
             }
         }
         return out;
+    }
+
+    /**
+     * Parse the output line from a SAT solver and reconstruct the {@link Program}.
+     *
+     * @param minisatOutput A single line containing variable assignments
+     *                      (e.g. "1 -2 3 ... 0")
+     * @param numOps        Number of operations used during synthesis
+     * @param allowedOps    Set of allowed operations
+     * @return The decoded program
+     */
+    public static Program extractProgram(String minisatOutput,
+                                         int numOps,
+                                         Set<OpType> allowedOps) {
+        // Collect all positively assigned variables
+        Set<Integer> positives = Arrays.stream(minisatOutput.trim().split("\\s+"))
+                .filter(s -> !s.equals("v") && !s.equals("0"))
+                .map(Integer::parseInt)
+                .filter(i -> i > 0)
+                .collect(Collectors.toSet());
+
+        List<OpType> opOrder = new ArrayList<>(allowedOps);
+
+        int nextVar = 1;
+        Program program = new Program();
+
+        for (int op = 0; op < numOps; op++) {
+            Instruction ins = new Instruction();
+
+            // Decode operation type
+            for (int j = 0; j < opOrder.size(); j++) {
+                if (positives.contains(nextVar)) {
+                    ins.type = opOrder.get(j);
+                }
+                nextVar++;
+            }
+
+            // Decode srcA selector
+            for (int j = 0; j <= op; j++) {
+                if (positives.contains(nextVar)) {
+                    ins.srcA = j;
+                }
+                nextVar++;
+            }
+
+            // Decode srcB selector
+            for (int j = 0; j <= op; j++) {
+                if (positives.contains(nextVar)) {
+                    ins.srcB = j;
+                }
+                nextVar++;
+            }
+
+            program.instructions.add(ins);
+        }
+
+        return program;
     }
 }
